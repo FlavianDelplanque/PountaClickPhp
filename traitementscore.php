@@ -10,7 +10,7 @@ try {
 		$sql = 'UPDATE users SET score="'.$score.'",point="'.$point.'" WHERE login="Flavian"';
 		$stmt = $dbh->prepare($sql);
 		$stmt-> execute($data);
-		header("Location: menuchangerformes.php");
+		header("Location: winloose.php");
 } catch (PODExecption $e) {
 		print "Error!: ". $e->getMessage() . ">br/>";
 		die();
