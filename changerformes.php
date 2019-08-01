@@ -1,4 +1,5 @@
 <?php include "headerfooter/header.php"; 
+require 'dbconnect.php';
 if (isset($_POST['formescouleur'])&&$_POST['formescouleur']==true) {
 	$titre = "couleur";
 	$divFormes1 = "formesCouleur1";
@@ -32,6 +33,6 @@ elseif (isset($_POST['formesbonus'])&&$_POST['formesbonus']==true) {
 		<label id="pointNCouleur2">obtenu</label>
 	</div>
 	<a href="menuchangerformes.php" class="boutonMenuformes"><button>Retour</button></a>
-	<label id="nombreDePoint">point</label>
+	<label id="nombreDePoint"><?php $reponse = $dbh->query('SELECT * FROM users Flavian'); $donnees = $reponse->fetch(); echo $donnees['point']?> point</label>
 </div>
 <?php include "headerfooter/footer.php"; ?>
