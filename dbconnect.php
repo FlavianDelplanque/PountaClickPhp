@@ -1,6 +1,6 @@
 <?php 
 $user = "root";
-$pass = "coucou";
+$pass = "";
 
 try {
     $dbh = new PDO('mysql:host=localhost;dbname=pountaclick', $user, $pass);

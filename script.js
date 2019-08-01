@@ -6,6 +6,7 @@ var partieLancement = 0;
 var partieStorage = 0;
 var score = 0;
 var point = 0;
+var pointusers = 0;
 // Nombre de formes 
 var nombreDeFormes = ["17","60","130"];
 var nombreDeDivNoir = ["3","20","70"];
@@ -307,14 +308,12 @@ function removeSonDivGlobal() {
 // Formes
 // Generation formes
 function formes() {
-  // Verification données du joueur
-  var pseudoUtilisateur = JSON.parse(sessionStorage.getItem(pseudo));
-  if (pseudoUtilisateur != null) {
-    // Verification choix de la forme
-    var FormesCouleur = pseudoUtilisateur.choixFormesCouleur;
-    var FormesNoir = pseudoUtilisateur.choixFormesNoir;
-  }
-  // Création formes de couleur
+
+    var inputFormesCouleur = document.getElementById("inputchoixformecouleur");
+    var FormesCouleur = inputFormesCouleur.value;
+    var inputFormesNoir = document.getElementById("inputchoixformenoir");
+    var FormesNoir = inputFormesNoir.value;    
+
   for(var i=0; i<nombreDeFormes[partie]; i++){
     // Création formes
     var formes = document.createElement("div");
@@ -325,7 +324,7 @@ function formes() {
     formes.style.width = taille + 'px';
     formes.style.height = taille + 'px';
     // Verif si la forme rond est sélectionner
-    if (FormesCouleur == "Rond") {
+    if (FormesCouleur == "rond") {
       formes.style.borderRadius = '50%';
     }
     formes.style.zIndex = '1';
@@ -483,10 +482,8 @@ function setIntervalBonu() {
 function formeBonu() {
   var nombreDivTeteGlobal = document.getElementsByClassName("teteGlobal").length;
   // Verification données du joueur
-  var pseudoUtilisateur = JSON.parse(sessionStorage.getItem(pseudo));
-  if (pseudoUtilisateur != null) {
-    var FormesBonus = pseudoUtilisateur.choixFormesBonus;
-  }
+  var inputFormesBonus = document.getElementById("inputchoixformebonus");
+  var FormesBonus = inputFormesBonus.value;
   // Vérifi si il reste des formes normal
   if (win.length == 0) {
     clearInterval(setIntervalFormeBonu);
@@ -683,54 +680,10 @@ function finish() {
   partieLancement++;
   removeSonDivGlobal();
   removePause();
+  sauvegardeScore();
   // changement curseur 
   document.body.style.cursor = "default";
-  // Verification des données du joueur
-  var pseudoUtilisateur = JSON.parse(sessionStorage.getItem(pseudo));
-  // Création du tableau d'information si nouveau joueur (Et sauvegarde des scores, point, nombre de partie joué)
-  if (pseudoUtilisateur == null) {
-    var infoUtilisateur ={
-      scoreUtilisateur: score,
-      partieUtilisateur: partieStorage,
-      pointUtilisateur: point,
-      choixFormesCouleur: "carre",
-      articleFormesCouleur: null,
-      choixFormesNoir: "noir",
-      articleFormesNoir: null,
-      choixFormesBonus: "Christophe",
-      articleFormesBonus : null,
-    }
-    var infoU = JSON.stringify(infoUtilisateur);
-    sessionStorage.setItem(pseudo, infoU);
-  }
-  // Sauvegarde des informations si ancien joueur (Scores, point, nombre de partie joué)
-  else {
-  var ancienScore = pseudoUtilisateur.scoreUtilisateur;
-  var ancienPartie = pseudoUtilisateur.partieUtilisateur;
-  var ancienPoint = pseudoUtilisateur.pointUtilisateur;
-  var FormesCouleur = pseudoUtilisateur.choixFormesCouleur;
-  var aFormesCouleur = pseudoUtilisateur.articleFormesCouleur;
-  var FormesNoir = pseudoUtilisateur.choixFormesNoir;
-  var aFormesNoir = pseudoUtilisateur.articleFormesNoir;  
-  var FormesBonus = pseudoUtilisateur.choixFormesBonus;
-  var aFormesBonus = pseudoUtilisateur.articleFormesBonus;
-  var nouveauScore = ancienScore + score;
-  var nouveauPartie = ancienPartie + partieStorage;
-  var nouveauPoint = ancienPoint + point;
-  var infoUtilisateurN ={
-    scoreUtilisateur: nouveauScore,
-    partieUtilisateur: nouveauPartie,
-    pointUtilisateur: nouveauPoint,
-    choixFormesCouleur: FormesCouleur,
-    articleFormesCouleur: aFormesCouleur,
-    choixFormesNoir: FormesNoir,
-    articleFormesNoir: aFormesNoir,
-    choixFormesBonus: FormesBonus,
-    articleFormesBonus : aFormesBonus,
-  }
-  var infoUN = JSON.stringify(infoUtilisateurN);
-  sessionStorage.setItem(pseudo, infoUN);
-  }
+
   // Clear des interval
   clearInterval(setIntervalFormeBonu);
   clearInterval(intervalTimer);
@@ -847,17 +800,20 @@ function titreChargementNiveaux() {
 }
 // Titre win niveaux seul & win final pour tous les niveaux
 function titreWin() {
-  sauvegardeScore();
+  
 }
 // Titre loose
 function titreLoose() {
   sonWasted.play();
-  sauvegardeScore();
 }
 
 function sauvegardeScore() {
   var inputscore = document.getElementById("inputscore");
-  inputscore.value = "50";
+  valueinputscore = inputscore.value;
+  inputscore.value = parseInt(valueinputscore)+score;
+  var inputpoint = document.getElementById("inputpoint");
+  valueinputpoint = inputpoint.value;
+  inputpoint.value = parseInt(valueinputpoint)+point;
   document.querySelector(".form").submit();
 }
 // Supprime les titres
@@ -871,3 +827,149 @@ function deleteTitreChargement() {
   document.getElementById("timer").remove();
 }
 
+
+
+
+
+
+
+
+
+
+function ChangementFormesCouleur() {
+  recuppointbd();
+  var boutonMenuformes = document.querySelector(".boutonMenuformes");
+  boutonMenuformes.addEventListener("click", function(){document.querySelector(".form").submit();})
+  var formes1 = document.getElementById("divFormes1");
+  formes1.addEventListener("click", choixFormesCarre);
+  var formes2 = document.getElementById("divFormes2");
+  formes2.addEventListener("click", choixFormesRond);
+  var pseudoUtilisateur = JSON.parse(localStorage.getItem(pseudo));
+    // Verif si le joueur poséde la forme rond
+    var inputFormeRond = document.getElementById("formecouleur");
+    var checkFormeRond = inputFormeRond.value;
+    var inputDePointU = document.getElementById("point");
+    var nombreDePointU = inputDePointU.value;
+    var inputChoixForme = document.getElementById("choixformecouleur");
+    var choixformesU = inputChoixForme.value;
+    if (checkFormeRond == "rond"){
+      pointNCouleur2.textContent = "obtenu";
+    }
+    // Récupère le nombre de point de l'utilisateur
+    // Affiche le nombre de point de l'utilisateur
+    var nombreDePoint = document.createElement("label");
+    divGlobal[0].appendChild(nombreDePoint);
+    nombreDePoint.textContent = nombreDePointU + " point";
+    nombreDePoint.id = "nombreDePoint";
+    // Vérification de la forme choisi par le joueur et affichage du check suivant la forme sélectionner
+    var pseudoUtilisateur = JSON.parse(localStorage.getItem(pseudo));
+    if (choixformesU == "null" || choixformesU == "carre") {
+      // Affiche un check sur la forme carre
+      var divFormes = document.getElementById("divFormes1");
+      var imgCheck = new Image();
+      imgCheck.src = "image/check.png";
+      divFormes.appendChild(imgCheck);
+      imgCheck.style.position = 'absolute';
+      imgCheck.style.width = '100%';
+      imgCheck.style.height = '80%';
+      imgCheck.id = "check1";
+    }
+    else {
+      // Affiche un check sur la forme rond
+      var divFormes = document.getElementById("divFormes2");
+      var imgCheck = new Image();
+      imgCheck.src = "image/check.png";
+      divFormes.appendChild(imgCheck);
+      imgCheck.style.position = 'absolute';
+      imgCheck.style.width = '100%';
+      imgCheck.style.height = '80%';
+      imgCheck.id = "check2";
+    }
+    // Verifi si le joueur posséde la forme rond
+    if (nombreDePointU < 50 && checkFormeRond == "null") {
+      // Affiche un cadenas sur la forme rond
+      var divFormes2 = document.getElementById("divFormes2");
+      var cadenas = new Image();
+      cadenas.src = "image/cadenas.png";
+      divFormes2.appendChild(cadenas);
+      cadenas.style.position = 'absolute';
+      cadenas.style.width = '70%';
+      cadenas.style.height = '70%';
+      // Affiche le nombre de point nécessaire pour avoir la forme rond
+      pointNCouleur2.textContent = "50 point";
+    }
+    else if (checkFormeRond == "null") {
+      // Affiche le nombre de point nécessaire pour avoir la forme rond
+      pointNCouleur2.textContent = "50 point";
+    }
+  }
+function choixFormesCarre() {
+    var inputFormeRond = document.getElementById("formecouleur");
+    var checkFormeRond = inputFormeRond.value;
+    var inputDePointU = document.getElementById("point");
+    var nombreDePointU = inputDePointU.value;
+    var inputChoixForme = document.getElementById("choixformecouleur");
+    var choixformesU = inputChoixForme.value;
+    inputChoixForme.value = "carre";
+    // Verif si le check est déjà afficher et l'affiche quand la forme carre est sélectionner
+    var verifCheck = document.getElementById("check1");
+    if (verifCheck < 1) {
+    var divFormes = document.getElementById("divFormes1");
+    var imgCheck = new Image();
+    imgCheck.src = "image/check.png";
+    divFormes.appendChild(imgCheck);
+    imgCheck.style.position = 'absolute';
+    imgCheck.style.width = '100%';
+    imgCheck.style.height = '80%';
+    imgCheck.id = "check1";
+    document.getElementById("check2").remove();
+    }
+}
+
+function choixFormesRond() {
+  console.log("mdr");
+    var inputFormeRond = document.getElementById("formecouleur");
+    var checkFormeRond = inputFormeRond.value;
+    var inputDePointU = document.getElementById("point");
+    var nombreDePointU = inputDePointU.value;
+    var inputChoixForme = document.getElementById("choixformecouleur");
+    var choixformesU = inputChoixForme.value;
+    if (checkFormeRond == "null" && nombreDePointU >= 50) {
+      console.log("acheté");
+      inputFormeRond.value = "rond";
+      inputChoixForme.value = "rond";
+      nouveauDePointU = nombreDePointU - 50;
+      inputDePointU.value = nouveauDePointU;
+      var pointNCouleur2 = document.getElementById("pointNCouleur2");
+      pointNCouleur2.textContent = "acheté !";
+      checkRond();
+    }
+    else if (checkFormeRond == "rond") {
+      console.log("sélectionner");
+      inputChoixForme.value = "rond";
+      checkRond();
+    }
+}
+function checkRond() {
+    var verifCheck = document.getElementById("check2");
+    if (verifCheck < 1) {
+    var divFormes = document.getElementById("divFormes2");
+    var imgCheck = new Image();
+    imgCheck.src = "image/check.png";
+    divFormes.appendChild(imgCheck);
+    imgCheck.style.position = 'absolute';
+    imgCheck.style.width = '100%';
+    imgCheck.style.height = '80%';
+    imgCheck.id = "check2";
+    document.getElementById("check1").remove();
+    }
+}
+
+
+
+
+function recuppointbd() {
+  var inputpoint = document.getElementById("point");
+  pointusers = inputpoint.value;
+  console.log(pointusers);
+}
