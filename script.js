@@ -833,37 +833,60 @@ function deleteTitreChargement() {
 
 
 
+var checkForme = null;
+var choixformesU = null;
+nomFormeB = null;
+nomForme = null;
+prix = null;
 
-
-
-function ChangementFormesCouleur() {
+function ChangementFormes() {
+  var forme = document.cookie.replace(/(?:(?:^|.*;\s*)forme\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+  console.log(forme);
+  console.log(document.cookie);
+  if (forme == "couleur") {
+    checkForme = document.cookie.replace(/(?:(?:^|.*;\s*)formecouleur\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    choixformesU = document.cookie.replace(/(?:(?:^|.*;\s*)choixformecouleur\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    nomFormeB = "carre";
+    nomForme = "rond";
+    intituleFormeB = "choixformecouleur";
+    intituleForme = "formecouleur";
+    prix = 50;
+    console.log("couleur");
+  }
+  else if (forme == "noir") {
+    checkForme = document.cookie.replace(/(?:(?:^|.*;\s*)formenoir\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    choixformesU = document.cookie.replace(/(?:(?:^|.*;\s*)choixformenoir\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    nomFormeB = "noir";
+    nomForme = "TM";
+    intituleFormeB = "choixformenoir";
+    intituleForme = "formenoir";
+    prix = 100;
+    console.log("noir");
+  }
+  else if (forme == "bonus") {
+    checkForme = document.cookie.replace(/(?:(?:^|.*;\s*)formebonus\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    choixformesU = document.cookie.replace(/(?:(?:^|.*;\s*)choixformebonus\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    nomFormeB = "Christophe";
+    nomForme = "Aurelie";
+    intituleFormeB = "choixformebonus";
+    intituleForme = "formebonus";
+    prix = 200;
+    console.log("noir");
+  }
   recuppointbd();
-  var boutonMenuformes = document.querySelector(".boutonMenuformes");
-  boutonMenuformes.addEventListener("click", function(){document.querySelector(".form").submit();})
   var formes1 = document.getElementById("divFormes1");
-  formes1.addEventListener("click", choixFormesCarre);
+  formes1.addEventListener("click", choixFormesB);
   var formes2 = document.getElementById("divFormes2");
-  formes2.addEventListener("click", choixFormesRond);
+  formes2.addEventListener("click", choixFormes);
   var pseudoUtilisateur = JSON.parse(localStorage.getItem(pseudo));
     // Verif si le joueur poséde la forme rond
-    var inputFormeRond = document.getElementById("formecouleur");
-    var checkFormeRond = inputFormeRond.value;
-    var inputDePointU = document.getElementById("point");
-    var nombreDePointU = inputDePointU.value;
-    var inputChoixForme = document.getElementById("choixformecouleur");
-    var choixformesU = inputChoixForme.value;
-    if (checkFormeRond == "rond"){
+    var nombreDePointU = document.cookie.replace(/(?:(?:^|.*;\s*)point\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    if (checkForme == nomForme){
       pointNCouleur2.textContent = "obtenu";
     }
-    // Récupère le nombre de point de l'utilisateur
-    // Affiche le nombre de point de l'utilisateur
-    var nombreDePoint = document.createElement("label");
-    divGlobal[0].appendChild(nombreDePoint);
-    nombreDePoint.textContent = nombreDePointU + " point";
-    nombreDePoint.id = "nombreDePoint";
     // Vérification de la forme choisi par le joueur et affichage du check suivant la forme sélectionner
     var pseudoUtilisateur = JSON.parse(localStorage.getItem(pseudo));
-    if (choixformesU == "null" || choixformesU == "carre") {
+    if (choixformesU == "null" || choixformesU == nomFormeB) {
       // Affiche un check sur la forme carre
       var divFormes = document.getElementById("divFormes1");
       var imgCheck = new Image();
@@ -886,7 +909,7 @@ function ChangementFormesCouleur() {
       imgCheck.id = "check2";
     }
     // Verifi si le joueur posséde la forme rond
-    if (nombreDePointU < 50 && checkFormeRond == "null") {
+    if (nombreDePointU < prix && checkForme == "null") {
       // Affiche un cadenas sur la forme rond
       var divFormes2 = document.getElementById("divFormes2");
       var cadenas = new Image();
@@ -896,21 +919,16 @@ function ChangementFormesCouleur() {
       cadenas.style.width = '70%';
       cadenas.style.height = '70%';
       // Affiche le nombre de point nécessaire pour avoir la forme rond
-      pointNCouleur2.textContent = "50 point";
+      pointNCouleur2.textContent = prix+" point";
     }
-    else if (checkFormeRond == "null") {
+    else if (checkForme == "null") {
       // Affiche le nombre de point nécessaire pour avoir la forme rond
-      pointNCouleur2.textContent = "50 point";
+      pointNCouleur2.textContent =  prix+" point";
     }
   }
-function choixFormesCarre() {
-    var inputFormeRond = document.getElementById("formecouleur");
-    var checkFormeRond = inputFormeRond.value;
-    var inputDePointU = document.getElementById("point");
-    var nombreDePointU = inputDePointU.value;
-    var inputChoixForme = document.getElementById("choixformecouleur");
-    var choixformesU = inputChoixForme.value;
-    inputChoixForme.value = "carre";
+function choixFormesB() {
+    var nombreDePointU = document.cookie.replace(/(?:(?:^|.*;\s*)point\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    document.cookie = intituleFormeB+"="+nomFormeB;
     // Verif si le check est déjà afficher et l'affiche quand la forme carre est sélectionner
     var verifCheck = document.getElementById("check1");
     if (verifCheck < 1) {
@@ -926,31 +944,26 @@ function choixFormesCarre() {
     }
 }
 
-function choixFormesRond() {
+function choixFormes() {
   console.log("mdr");
-    var inputFormeRond = document.getElementById("formecouleur");
-    var checkFormeRond = inputFormeRond.value;
-    var inputDePointU = document.getElementById("point");
-    var nombreDePointU = inputDePointU.value;
-    var inputChoixForme = document.getElementById("choixformecouleur");
-    var choixformesU = inputChoixForme.value;
-    if (checkFormeRond == "null" && nombreDePointU >= 50) {
+    var nombreDePointU = document.cookie.replace(/(?:(?:^|.*;\s*)point\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    if (checkForme == "null" && nombreDePointU >= prix) {
       console.log("acheté");
-      inputFormeRond.value = "rond";
-      inputChoixForme.value = "rond";
-      nouveauDePointU = nombreDePointU - 50;
-      inputDePointU.value = nouveauDePointU;
+      document.cookie = intituleForme+"="+nomForme;
+      document.cookie = intituleFormeB+"="+nomForme;
+      nouveauDePointU = nombreDePointU - prix;
+      document.cookie = "point="+nouveauDePointU;
       var pointNCouleur2 = document.getElementById("pointNCouleur2");
       pointNCouleur2.textContent = "acheté !";
-      checkRond();
+      checkFormeF();
     }
-    else if (checkFormeRond == "rond") {
+    else if (checkForme == nomForme) {
       console.log("sélectionner");
-      inputChoixForme.value = "rond";
-      checkRond();
+      document.cookie = intituleFormeB+"="+nomForme;
+      checkFormeF();
     }
 }
-function checkRond() {
+function checkFormeF() {
     var verifCheck = document.getElementById("check2");
     if (verifCheck < 1) {
     var divFormes = document.getElementById("divFormes2");
@@ -969,7 +982,6 @@ function checkRond() {
 
 
 function recuppointbd() {
-  var inputpoint = document.getElementById("point");
-  pointusers = inputpoint.value;
-  console.log(pointusers);
+  var nombreDePointU = document.cookie.replace(/(?:(?:^|.*;\s*)point\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+  console.log(nombreDePointU);
 }
