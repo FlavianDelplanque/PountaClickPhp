@@ -2,14 +2,14 @@
 var couleur = ["red","darkorange","yellow","lime","blue","blueviolet","cyan","gold","greenyellow"];
 // Nombre partie et score
 var partie = 0;
-var partieLancement = 0;
+var numeroniveaux = 0;
 var partieStorage = 0;
 var score = 0;
 var point = 0;
 var pointusers = 0;
 // Nombre de formes 
-var nombreDeFormes = ["17","60","130"];
-var nombreDeDivNoir = ["3","20","70"];
+var nombreDeFormes = ["2","4","6"];
+var nombreDeDivNoir = ["1","2","3"];
 // Nombre et générations forme bonus
 var formesBonus = 0;
 var setIntervalFormeBonu = null;
@@ -196,17 +196,17 @@ function boutonMenuJeux() {
 // Lancement niveaux seul
 function niveaux1() {
   partie = 0;
-  partieLancement = 0;
+  numeroniveaux = 0;
   lancement1Niveaux();
 }
 function niveaux2() {
   partie = 1;
-  partieLancement = 1;
+  numeroniveaux = 1;
   lancement1Niveaux();
 }
 function niveaux3() {
   partie = 2;
-  partieLancement = 2;
+  numeroniveaux = 2;
   lancement1Niveaux();
 }
 function lancement1Niveaux() {
@@ -219,8 +219,8 @@ function lancement1Niveaux() {
 }
 // Lancement tous les niveaux
 function toutLesNiveaux() {
-  partieLancement = 0;
-  partie=0; 
+  numeroniveaux = document.cookie.replace(/(?:(?:^|.*;\s*)numeroniveaux\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+  partie=numeroniveaux; 
   lancementToutLesNiveaux();
 }
 function lancementToutLesNiveaux() {
@@ -233,32 +233,31 @@ function lancementToutLesNiveaux() {
 }
 // Lancement des niveaux suivant ou de l'écran de fin
 function relance() {
-  if (partie <= 2){
-    finish();
-    partieStorage = 0;
-    titreWinChargementNiveaux();
-    setTimeout(deleteTitre, 11000);
-    setTimeout(formes, 5000);
-    setTimeout(deplacement,5000);
-    setTimeout(timeDeplacement,8000);
-    setTimeout(setIntervalBonu,11000);
-    setTimeout(affichageScore,11000);
-    setTimeout(timerGlobal,11000);
-    setTimeout(onClickWL,11000);
-    setTimeout(nombrePartie,11000);
-    setTimeout(sondivGlobal,11000);
-    setTimeout(creationPause,11000);
-    timer = 0;
-    score = 0;
-    point = 0;
-  }
-  // Chargement titre de fin
-  else {
-    finish();
-    partieStorage = 0;
-    titreWin();
-    sonLeviosa.play();
-  }
+  finish();
+  partieStorage = 0;
+  gestionNiveaux();
+  titreWin();
+}
+function relanceNiveaux() {
+  numeroniveaux = document.cookie.replace(/(?:(?:^|.*;\s*)numeroniveaux\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+  partie=numeroniveaux; 
+  niveauxSimpleOuTout = "tout";
+  creationDivGlobal();
+  titreWinChargementNiveaux();
+  setTimeout(deleteTitre, 11000);
+  setTimeout(formes, 5000);
+  setTimeout(deplacement,5000);
+  setTimeout(timeDeplacement,8000);
+  setTimeout(setIntervalBonu,11000);
+  setTimeout(affichageScore,11000);
+  setTimeout(timerGlobal,11000);
+  setTimeout(onClickWL,11000);
+  setTimeout(nombrePartie,11000);
+  setTimeout(sondivGlobal,11000);
+  setTimeout(creationPause,11000);
+  timer = 0;
+  score = 0;
+  point = 0;
 }
 // Lancement niveaux
 function lancementNiveauxGlobal() {
@@ -308,12 +307,8 @@ function removeSonDivGlobal() {
 // Formes
 // Generation formes
 function formes() {
-
-    var inputFormesCouleur = document.getElementById("inputchoixformecouleur");
-    var FormesCouleur = inputFormesCouleur.value;
-    var inputFormesNoir = document.getElementById("inputchoixformenoir");
-    var FormesNoir = inputFormesNoir.value;    
-
+  var FormesCouleur = document.cookie.replace(/(?:(?:^|.*;\s*)choixformecouleur\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+  var FormesNoir = document.cookie.replace(/(?:(?:^|.*;\s*)choixformenoir\s*\=\s*([^;]*).*$)|^.*$/, "$1");
   for(var i=0; i<nombreDeFormes[partie]; i++){
     // Création formes
     var formes = document.createElement("div");
@@ -349,7 +344,7 @@ function formes() {
     formes.style.backgroundColor = "black";
     formes.style.zIndex = '1';
     // Verif si la forme Tete de mort est sélectionner
-    if (FormesNoir == "TeteDeMort") {
+    if (FormesNoir == "TM") {
       formes.className = "formesGlobal visageTM loose";
       var visage = document.getElementsByClassName("visageTM");
       var tete = document.createElement("div");
@@ -406,12 +401,12 @@ function deplacement() {
     var nmbrL = Math.floor(Math.random() * (92)+2);
     formesGlobal[i].style.top = nmbrT + '%';
     formesGlobal[i].style.right = nmbrL + '%';
-    formesGlobal[i].style.transitionDuration = deplacementDifficulteSeconde[partieLancement]+"s";
+    formesGlobal[i].style.transitionDuration = deplacementDifficulteSeconde[numeroniveaux]+"s";
   }
 }
 function timeDeplacement() {
 	deplacement();
-  intervalDeplacement = setInterval(deplacement,deplacementDifficulte[partieLancement]);
+  intervalDeplacement = setInterval(deplacement,deplacementDifficulte[numeroniveaux]);
 }
 // Génération des fonctions click pour les formes et changement de curseur
 function onClickWL() {
@@ -474,7 +469,7 @@ function removePointClique() {
 }
 // Création des formes bonus et fonctions click
 function setIntervalBonu() {
-	var intervalBonu = tempsGeneFormeBonus[partieLancement];
+	var intervalBonu = tempsGeneFormeBonus[numeroniveaux];
 	var intervalBonuRandom = intervalBonu / 2;
   var intervalFormeBonu = Math.floor(Math.random() * intervalBonuRandom)+intervalBonu;
   setIntervalFormeBonu = setInterval(formeBonu,intervalFormeBonu); 
@@ -482,8 +477,7 @@ function setIntervalBonu() {
 function formeBonu() {
   var nombreDivTeteGlobal = document.getElementsByClassName("teteGlobal").length;
   // Verification données du joueur
-  var inputFormesBonus = document.getElementById("inputchoixformebonus");
-  var FormesBonus = inputFormesBonus.value;
+  var FormesBonus = document.cookie.replace(/(?:(?:^|.*;\s*)choixformebonus\s*\=\s*([^;]*).*$)|^.*$/, "$1");
   // Vérifi si il reste des formes normal
   if (win.length == 0) {
     clearInterval(setIntervalFormeBonu);
@@ -612,12 +606,14 @@ function cliqueWP() {
   if (winTotal == 0 && niveauxSimpleOuTout == "tout") {
     // lance les niveaux suivant
     relance();
+    console.log("tamere");
   }
   else if (winTotal == 0 && niveauxSimpleOuTout == "simple") {
     // lance l'écran win
     finish();
     titreWin();
-    if (partieLancement <= 2) {
+    console.log("tamere");
+    if (numeroniveaux <= 2) {
     // Lance le son pour l'écran win des niveaux noob et hardcore
     sonOuii.play();
     }
@@ -626,6 +622,9 @@ function cliqueWP() {
     sonLeviosa.play();
     }
   }
+  console.log(winTotal);
+  console.log(niveauxSimpleOuTout);
+  console.log("lol");
 }
 // Loose
 function cliqueL() {
@@ -677,25 +676,9 @@ function affichageScore() {
 }
 // Finish
 function finish() {
-  partieLancement++;
   removeSonDivGlobal();
   removePause();
   sauvegardeScore();
-  // changement curseur 
-  document.body.style.cursor = "default";
-
-  // Clear des interval
-  clearInterval(setIntervalFormeBonu);
-  clearInterval(intervalTimer);
-  clearInterval(intervalDeplacement);
-  // Suppresion de l'affichage du timer et des formes restante
-  document.getElementById("timerMini").remove();
-  document.getElementById("divScore").remove();
-  var teteGlobal = document.getElementsByClassName("teteGlobal");
-  var nombreDeDivTotal = win.length + loose.length + teteGlobal.length -1;
-    for(var i=nombreDeDivTotal; i>-1; i--){
-    formesGlobal[i].remove();
-  }
 }
 // Mettre en pause
 function creationPause() {
@@ -740,7 +723,20 @@ function play() {
 
 // Titre
 // Titre Win chargement
+function gestionNiveaux() {
+  var numeroniveaux = document.cookie.replace(/(?:(?:^|.*;\s*)numeroniveaux\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+  if (numeroniveaux==0) {
+    document.cookie = "numeroniveaux=1";
+  }
+  else if (numeroniveaux==1) {
+    document.cookie = "numeroniveaux=2";
+  }
+  else if (numeroniveaux==2) {
+    document.cookie = "numeroniveaux=null";
+  }
+}
 function titreWinChargementNiveaux() {
+  timer = document.cookie.replace(/(?:(?:^|.*;\s*)time\s*\=\s*([^;]*).*$)|^.*$/, "$1");
   sonOuii.play();
   // Titre you win
   var titreWin = document.createElement("h1");
@@ -800,21 +796,21 @@ function titreChargementNiveaux() {
 }
 // Titre win niveaux seul & win final pour tous les niveaux
 function titreWin() {
-  
+  document.cookie = "resultat=win";
+  document.cookie = "time="+timer;
 }
 // Titre loose
 function titreLoose() {
+  document.cookie = "resultat=loose";
+  document.cookie = "scorepartie="+score;
   sonWasted.play();
+  document.cookie = "numeroniveaux=null";
 }
 
 function sauvegardeScore() {
-  var inputscore = document.getElementById("inputscore");
-  valueinputscore = inputscore.value;
-  inputscore.value = parseInt(valueinputscore)+score;
-  var inputpoint = document.getElementById("inputpoint");
-  valueinputpoint = inputpoint.value;
-  inputpoint.value = parseInt(valueinputpoint)+point;
-  document.querySelector(".form").submit();
+  document.cookie = "score="+score;
+  document.cookie = "point="+point;
+  document.location.href="traitementscore.php";
 }
 // Supprime les titres
 function deleteTitre() {
@@ -835,11 +831,16 @@ function deleteTitreChargement() {
 
 var checkForme = null;
 var choixformesU = null;
-nomFormeB = null;
-nomForme = null;
-prix = null;
+var nomFormeB = null;
+var nomForme = null;
+var prix = null;
+var choixFormeDef = null;
+var formeDef = null;
 
 function ChangementFormes() {
+  var boutonChangement = document.getElementsByClassName("boutonMenuformes");
+  boutonChangement[0].addEventListener("click",retourMenuForme);
+  document.cookie = "achat=false";
   var forme = document.cookie.replace(/(?:(?:^|.*;\s*)forme\s*\=\s*([^;]*).*$)|^.*$/, "$1");
   console.log(forme);
   console.log(document.cookie);
@@ -852,6 +853,8 @@ function ChangementFormes() {
     intituleForme = "formecouleur";
     prix = 50;
     console.log("couleur");
+    choixFormeDef = choixformesU;
+    formeDef = checkForme;
   }
   else if (forme == "noir") {
     checkForme = document.cookie.replace(/(?:(?:^|.*;\s*)formenoir\s*\=\s*([^;]*).*$)|^.*$/, "$1");
@@ -862,6 +865,8 @@ function ChangementFormes() {
     intituleForme = "formenoir";
     prix = 100;
     console.log("noir");
+    choixFormeDef = choixformesU;
+    formeDef = checkForme;
   }
   else if (forme == "bonus") {
     checkForme = document.cookie.replace(/(?:(?:^|.*;\s*)formebonus\s*\=\s*([^;]*).*$)|^.*$/, "$1");
@@ -872,6 +877,8 @@ function ChangementFormes() {
     intituleForme = "formebonus";
     prix = 200;
     console.log("noir");
+    choixFormeDef = choixformesU;
+    formeDef = checkForme;
   }
   recuppointbd();
   var formes1 = document.getElementById("divFormes1");
@@ -927,59 +934,67 @@ function ChangementFormes() {
     }
   }
 function choixFormesB() {
-    var nombreDePointU = document.cookie.replace(/(?:(?:^|.*;\s*)point\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-    document.cookie = intituleFormeB+"="+nomFormeB;
-    // Verif si le check est déjà afficher et l'affiche quand la forme carre est sélectionner
-    var verifCheck = document.getElementById("check1");
-    if (verifCheck < 1) {
-    var divFormes = document.getElementById("divFormes1");
-    var imgCheck = new Image();
-    imgCheck.src = "image/check.png";
-    divFormes.appendChild(imgCheck);
-    imgCheck.style.position = 'absolute';
-    imgCheck.style.width = '100%';
-    imgCheck.style.height = '80%';
-    imgCheck.id = "check1";
-    document.getElementById("check2").remove();
-    }
+  var nombreDePointU = document.cookie.replace(/(?:(?:^|.*;\s*)point\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+  document.cookie = intituleFormeB+"="+nomFormeB;
+  // Verif si le check est déjà afficher et l'affiche quand la forme carre est sélectionner
+  var verifCheck = document.getElementById("check1");
+  if (verifCheck < 1) {
+  var divFormes = document.getElementById("divFormes1");
+  var imgCheck = new Image();
+  imgCheck.src = "image/check.png";
+  divFormes.appendChild(imgCheck);
+  imgCheck.style.position = 'absolute';
+  imgCheck.style.width = '100%';
+  imgCheck.style.height = '80%';
+  imgCheck.id = "check1";
+  document.getElementById("check2").remove();
+  }
+  choixFormeDef = nomFormeB;
 }
 
 function choixFormes() {
   console.log("mdr");
-    var nombreDePointU = document.cookie.replace(/(?:(?:^|.*;\s*)point\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-    if (checkForme == "null" && nombreDePointU >= prix) {
-      console.log("acheté");
-      document.cookie = intituleForme+"="+nomForme;
-      document.cookie = intituleFormeB+"="+nomForme;
-      nouveauDePointU = nombreDePointU - prix;
-      document.cookie = "point="+nouveauDePointU;
-      var pointNCouleur2 = document.getElementById("pointNCouleur2");
-      pointNCouleur2.textContent = "acheté !";
-      checkFormeF();
-    }
-    else if (checkForme == nomForme) {
-      console.log("sélectionner");
-      document.cookie = intituleFormeB+"="+nomForme;
-      checkFormeF();
-    }
+  var nombreDePointU = document.cookie.replace(/(?:(?:^|.*;\s*)point\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+  if (checkForme == "null" && nombreDePointU >= prix) {
+    console.log("acheté");
+    document.cookie = intituleForme+"="+nomForme;
+    document.cookie = intituleFormeB+"="+nomForme;
+    document.cookie = "point="+prix;
+    document.cookie = "achat=true";
+    var pointNCouleur2 = document.getElementById("pointNCouleur2");
+    pointNCouleur2.textContent = "acheté !";
+    checkFormeF();
+    choixFormeDef = nomForme;
+    formeDef = nomForme;
+  }
+  else if (checkForme == nomForme) {
+    console.log("sélectionner");
+    document.cookie = intituleFormeB+"="+nomForme;
+    checkFormeF();
+    choixFormeDef = nomForme;
+  }
 }
 function checkFormeF() {
-    var verifCheck = document.getElementById("check2");
-    if (verifCheck < 1) {
-    var divFormes = document.getElementById("divFormes2");
-    var imgCheck = new Image();
-    imgCheck.src = "image/check.png";
-    divFormes.appendChild(imgCheck);
-    imgCheck.style.position = 'absolute';
-    imgCheck.style.width = '100%';
-    imgCheck.style.height = '80%';
-    imgCheck.id = "check2";
-    document.getElementById("check1").remove();
-    }
+  var verifCheck = document.getElementById("check2");
+  if (verifCheck < 1) {
+  var divFormes = document.getElementById("divFormes2");
+  var imgCheck = new Image();
+  imgCheck.src = "image/check.png";
+  divFormes.appendChild(imgCheck);
+  imgCheck.style.position = 'absolute';
+  imgCheck.style.width = '100%';
+  imgCheck.style.height = '80%';
+  imgCheck.id = "check2";
+  document.getElementById("check1").remove();
+  }
 }
 
 
-
+function retourMenuForme() {
+  document.cookie = intituleFormeB+"="+choixFormeDef;
+  document.cookie = intituleForme+"="+formeDef;
+  document.location.href="traitementchoixformes.php";
+}
 
 function recuppointbd() {
   var nombreDePointU = document.cookie.replace(/(?:(?:^|.*;\s*)point\s*\=\s*([^;]*).*$)|^.*$/, "$1");

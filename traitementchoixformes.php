@@ -19,11 +19,18 @@ elseif ($forme == "bonus") {
 	$choixFormeI = "choixformebonus";
 	$formeI = "formebonus";	
 }
-$point = $_COOKIE['point'];
-
+$reponse = $dbh->query('SELECT * FROM users WHERE login="'.$_SESSION['pseudo'].'"'); $donnees = $reponse->fetch();
+if (isset($_COOKIE['achat'])&&$_COOKIE['achat']=="true") {
+	$point = $_COOKIE['point'];
+	$ancienPoint = $donnees['point'];
+	$nouveauPoint = $ancienPoint - $point;
+}
+else {
+	$nouveauPoint = $donnees['point'];
+}
 try {
 		$data = null;
-		$sql = 'UPDATE users SET point="'.$point.'",'.$formeI.'="'.$formeS.'",'.$choixFormeI.'="'.$choixforme.'" WHERE login="'.$_SESSION['pseudo'].'"';
+		$sql = 'UPDATE users SET point="'.$nouveauPoint.'",'.$formeI.'="'.$formeS.'",'.$choixFormeI.'="'.$choixforme.'" WHERE login="'.$_SESSION['pseudo'].'"';
 		$stmt = $dbh->prepare($sql);
 		$stmt-> execute($data);
 		header("Location: menuchangerformes.php");

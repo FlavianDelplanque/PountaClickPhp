@@ -52,7 +52,7 @@ setcookie("point",$point);
 		</div>
 		<label id="pointNCouleur2">obtenu</label>
 	</div>
-	<a class="boutonMenuformes" href="traitementchoixformes.php"><button>Retour</button></a>
+	<a class="boutonMenuformes"><button>Retour</button></a>
 	<label id="nombreDePoint"><?php $reponse = $dbh->query('SELECT * FROM users WHERE login="'.$_SESSION['pseudo'].'"'); $donnees = $reponse->fetch(); echo $donnees['point']?> point</label>
 </div>
 <?php include "headerfooter/footer.php"; ?>
