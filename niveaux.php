@@ -13,7 +13,7 @@ elseif (isset($_POST['niveauxultra'])&&$_POST['niveauxultra']==true) {
 	setcookie("numeroniveaux",null);
 }
 elseif (isset($_POST['niveauxtous'])&&$_POST['niveauxtous']==true) {
-	$scriptjs = "toutLesNiveaux()";
+	$scriptjs = "lancementToutLesNiveaux()";
 	setcookie("numeroniveaux",0);
 } 
 elseif ($_COOKIE['numeroniveaux']==1||$_COOKIE['numeroniveaux']==2) {

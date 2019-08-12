@@ -1,17 +1,13 @@
 // Tableau couleur
 var couleur = ["red","darkorange","yellow","lime","blue","blueviolet","cyan","gold","greenyellow"];
 // Nombre partie et score
-var partie = 0;
 var numeroniveaux = 0;
-var partieStorage = 0;
 var score = 0;
 var point = 0;
-var pointusers = 0;
 // Nombre de formes 
 var nombreDeFormes = ["2","4","6"];
 var nombreDeDivNoir = ["1","2","3"];
 // Nombre et générations forme bonus
-var formesBonus = 0;
 var setIntervalFormeBonu = null;
 // Temps niveaux
 var timesDifficulte = ["60","45","30"];
@@ -22,11 +18,8 @@ var timer = 0;
 var intervalTimer = null;
 // Interval deplacement 
 var deplacementDifficulte = ["8000","4000","2000"];
-var timerDifficulte = ["9000","5000","3000"];
 var deplacementDifficulteSeconde = ["8","4","2"];
 var intervalDeplacement = null;
-// Utilisateur
-var pseudo = null;
 // Choix simple niveaux ou tous
 var niveauxSimpleOuTout = null;
 // Son
@@ -35,11 +28,6 @@ var sonLeviosa = new Audio('son/leviosa.mp3');
 var sonWasted = new Audio('son/wasted.mp3');
 // Création divGlobal
 var divGlobal = document.getElementsByClassName("global");
-// Bouton
-var boutonMenuJeuxCN = document.getElementsByClassName("boutonMenuJeuxCN");
-// Choix forme
-var choixFormeCouleur = null;
-var choixFormeNoir = null;
 // Indicateur de point +1 & +5
 var idOnePoint = 0;
 var styleOnePoint = 0;
@@ -56,156 +44,17 @@ var pausePlay = 0;
 // Affichage score 
 var chiffreScore = document.createElement("h1");
 
-// Menu
-// Accueil
-function accueil() {
-  // Création div global
-  creationDivGlobal();
-  // Titre menu jeux
-  var labelMenu = document.createElement("label");
-  divGlobal[0].appendChild(labelMenu);
-  labelMenu.textContent = "Menu jeux";
-  // Bouton menu jeux
-  var boutonMenuJeux = document.createElement("button");
-  divGlobal[0].appendChild(boutonMenuJeux);
-  boutonMenuJeux.textContent = "Menu jeux";
-  boutonMenuJeux.onmouseenter = boutonMenuJeuxEnter;
-  boutonMenuJeux.onmouseleave = boutonMenuJeuxSortie;
-    function boutonMenuJeuxEnter() {
-      boutonMenuJeux.textContent = "Let's go !";
-    }
-    function boutonMenuJeuxSortie() {
-      boutonMenuJeux.textContent = "Menu jeux";
-    }  
-  boutonMenuJeux.addEventListener("click", menuEntrerPseudo);
-  // Titre ou
-  var labelOu = document.createElement("label");
-  divGlobal[0].appendChild(labelOu);
-  labelOu.textContent = "OU";
-  // Titre stats parties
-  var labelScore = document.createElement("label");
-  divGlobal[0].appendChild(labelScore);
-  labelScore.textContent = "Stats parties";
-  // Bouton stats parties
-  boutonScoreEtPartieAccueil();
-}
-// Tableau des scores
-function tableauScoreEtPartieGlobalAccueil() {
-  tableauScoreEtPartieGlobal(); 
-  boutonAccueil();
-  var boutonMenuJeux = document.createElement("button");
-  divGlobal[0].appendChild(boutonMenuJeux);
-  boutonMenuJeux.textContent = "Menu jeux";
-  boutonMenuJeux.addEventListener("click", menuEntrerPseudo);
-}
-function tableauScoreEtPartieGlobalJeux() {
-  sonOuii.pause();
-  sonOuii.currentTime = 0;
-  sonLeviosa.pause();
-  sonLeviosa.currentTime = 0;
-  sonWasted.pause();
-  sonWasted.currentTime = 0;
-  tableauScoreEtPartieGlobal(); 
-  boutonAccueil();
-  var boutonMenuJeux = document.createElement("button");
-  divGlobal[0].appendChild(boutonMenuJeux);
-  boutonMenuJeux.textContent = "Menu jeux";
-  boutonMenuJeux.addEventListener("click", removeDivGlobal);
-  boutonMenuJeux.addEventListener("click", menuJeux);
-}
-function tableauScoreEtPartieGlobal() {
-  var divGlobal = document.getElementsByClassName("global");
-  divGlobal[0].remove();
-  var divGlobal = document.createElement("div");
-  document.body.appendChild(divGlobal);
-  var verifTailleTableau = sessionStorage.length;
-  if (verifTailleTableau >= 15) {
-    divGlobal.className = "global globalScore";
-  }
-  else {
-    divGlobal.className = "global";
-  }
-  // Création tableau et en-tête
-  var tableau = document.createElement("table");
-  divGlobal.appendChild(tableau);
-  var thead = document.createElement("thead");
-  tableau.appendChild(thead);
-  var tr = document.createElement("tr");
-  thead.appendChild(tr);
-  var th = document.createElement("th");
-  tr.appendChild(th);
-  th.textContent = "Pseudo";
-  var th1 = document.createElement("th");
-  tr.appendChild(th1);
-  th1.textContent = "Score total";
-  var th2 = document.createElement("th");
-  tr.appendChild(th2);
-  th2.textContent = "Nombre de partie joué";
-  var tbody = document.createElement("tbody");
-  tableau.appendChild(tbody);
-  // Génération pseudo, score et partie jouer des différents joueur
-  for( var k in sessionStorage){
-    if (typeof sessionStorage[k] !== 'function' && k != 'length') {
-      var pseudo = k;
-      var scoreU = JSON.parse(sessionStorage[k]).scoreUtilisateur;
-      var partieU = JSON.parse(sessionStorage[k]).partieUtilisateur;
-      var tr = document.createElement("tr");
-      var td = document.createElement("td");
-      var td1 = document.createElement("td");
-      var td2 = document.createElement("td");
-      tbody.appendChild(tr);
-      tr.appendChild(td);
-      tr.appendChild(td1);
-      tr.appendChild(td2);
-      td.appendChild(document.createTextNode(pseudo));
-      td1.appendChild(document.createTextNode(scoreU));
-      td2.appendChild(document.createTextNode(partieU));
-    }
-  }
-}
-// Bouton menu
-function boutonScoreEtPartieJeux() {
-  // Bouton score et partie via jeux
-  var a = document.createElement("a");
-  divGlobal[0].appendChild(a);
-  a.href = "scores.php";
-  var bouton = document.createElement("button");
-  a.appendChild(bouton);
-  bouton.textContent = "Scores et nombre de partie jouer";
-  bouton.id = "boutonScoreEtPartie";
-  bouton.onmouseenter = boutonEnter;
-  bouton.onmouseleave = boutonSortie;
-  function boutonEnter() {
-    bouton.textContent = "Tes sur ? Tu risque de le regretter. Mon score est gros... A quoi tu pensé ? Pervers(e) !";
-  }
-  function boutonSortie() {
-    bouton.textContent = "Scores et nombre de partie jouer";
-  } 
-}
-function boutonMenuJeux() {
-  var a = document.createElement("a");
-  divGlobal[0].appendChild(a);
-  a.href = "menujeux.php";
-  var boutonMenuJeux = document.createElement("button");
-  a.appendChild(boutonMenuJeux);
-  boutonMenuJeux.textContent = "Menu jeux";
-}
-
-
 // Niveaux
 // Lancement niveaux seul
 function niveaux1() {
-  partie = 0;
   numeroniveaux = 0;
   lancement1Niveaux();
 }
 function niveaux2() {
-  partie = 1;
   numeroniveaux = 1;
   lancement1Niveaux();
 }
 function niveaux3() {
-  partie = 2;
   numeroniveaux = 2;
   lancement1Niveaux();
 }
@@ -213,34 +62,21 @@ function lancement1Niveaux() {
   timer = 0;
   score = 0;
   point = 0;
-  partieStorage = 0;
   niveauxSimpleOuTout = "simple";
   lancementNiveauxGlobal();
 }
 // Lancement tous les niveaux
-function toutLesNiveaux() {
-  numeroniveaux = document.cookie.replace(/(?:(?:^|.*;\s*)numeroniveaux\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-  partie=numeroniveaux; 
-  lancementToutLesNiveaux();
-}
 function lancementToutLesNiveaux() {
+  numeroniveaux = document.cookie.replace(/(?:(?:^|.*;\s*)numeroniveaux\s*\=\s*([^;]*).*$)|^.*$/, "$1");
   timer = 0;
   score = 0;
   point = 0;
-  partieStorage = 0;
   niveauxSimpleOuTout = "tout";
   lancementNiveauxGlobal();
 }
 // Lancement des niveaux suivant ou de l'écran de fin
-function relance() {
-  finish();
-  partieStorage = 0;
-  gestionNiveaux();
-  titreWin();
-}
 function relanceNiveaux() {
   numeroniveaux = document.cookie.replace(/(?:(?:^|.*;\s*)numeroniveaux\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-  partie=numeroniveaux; 
   niveauxSimpleOuTout = "tout";
   creationDivGlobal();
   titreWinChargementNiveaux();
@@ -252,7 +88,6 @@ function relanceNiveaux() {
   setTimeout(affichageScore,11000);
   setTimeout(timerGlobal,11000);
   setTimeout(onClickWL,11000);
-  setTimeout(nombrePartie,11000);
   setTimeout(sondivGlobal,11000);
   setTimeout(creationPause,11000);
   timer = 0;
@@ -271,8 +106,7 @@ function lancementNiveauxGlobal() {
   setTimeout(onClickWL,4000);
   setTimeout(timerGlobal,4000);
   setTimeout(affichageScore,4000);
-  timeDeplacement();
-  setTimeout(nombrePartie,4000); 
+  timeDeplacement(); 
   setTimeout(sondivGlobal,4000);
   setTimeout(creationPause,4000);
 }
@@ -283,9 +117,6 @@ function creationDivGlobal() {
   var divGlobal = document.createElement("div");
   document.body.appendChild(divGlobal);
   divGlobal.className = "global";
-}
-function removeDivGlobal() {
-  divGlobal[0].remove();
 }
 // Son div global
 function sondivGlobal() {
@@ -300,16 +131,14 @@ function verifSonDiv(event){
 function clickDivGlobal() {
 	var sonNok = new Audio('son/nani.mp3').play();
 }
-function removeSonDivGlobal() {
-  divGlobal[0].removeEventListener("click", verifSonDiv);
-}
+
 
 // Formes
 // Generation formes
 function formes() {
   var FormesCouleur = document.cookie.replace(/(?:(?:^|.*;\s*)choixformecouleur\s*\=\s*([^;]*).*$)|^.*$/, "$1");
   var FormesNoir = document.cookie.replace(/(?:(?:^|.*;\s*)choixformenoir\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-  for(var i=0; i<nombreDeFormes[partie]; i++){
+  for(var i=0; i<nombreDeFormes[numeroniveaux]; i++){
     // Création formes
     var formes = document.createElement("div");
     divGlobal[0].appendChild(formes);
@@ -330,7 +159,7 @@ function formes() {
     formes.className = "formesGlobal win";
     }
   // Création formes noir
-  for(var i=0; i<nombreDeDivNoir[partie]; i++){
+  for(var i=0; i<nombreDeDivNoir[numeroniveaux]; i++){
     // Création formes
     var formes = document.createElement("div");
     divGlobal[0].appendChild(formes);
@@ -605,12 +434,14 @@ function cliqueWP() {
   var winTotal = win.length + document.getElementsByClassName("teteGlobal").length;
   if (winTotal == 0 && niveauxSimpleOuTout == "tout") {
     // lance les niveaux suivant
-    relance();
+    sauvegardeScore();
+    gestionNiveaux();
+    titreWin();
     console.log("tamere");
   }
   else if (winTotal == 0 && niveauxSimpleOuTout == "simple") {
     // lance l'écran win
-    finish();
+    sauvegardeScore();
     titreWin();
     console.log("tamere");
     if (numeroniveaux <= 2) {
@@ -629,16 +460,11 @@ function cliqueWP() {
 // Loose
 function cliqueL() {
   // lance l'écran loose
-  finish();
+  sauvegardeScore();
   titreLoose();
 }
 
 // Gestion du jeux
-// Nombre partie
-function nombrePartie() {
-  partie++;
-  partieStorage++;
-}
 // Timer
 function timerGlobal() {
   // Lance le timer
@@ -646,7 +472,7 @@ function timerGlobal() {
   var timerMini = document.createElement("h1");
   divGlobal[0].appendChild(timerMini);    
   timerMini.id = "timerMini";
-  window.timerMiniCompteARebourd = timesDifficulte[partie];
+  window.timerMiniCompteARebourd = timesDifficulte[numeroniveaux];
   // Affichage timer
   window.timerMini.textContent = window.timerMiniCompteARebourd + " secondes restantes";
 }
@@ -655,9 +481,9 @@ function timerFunction() {
   window.timerMiniCompteARebourd--;
   timer++;
   timerMini.textContent = window.timerMiniCompteARebourd + " secondes restantes";
-  if (window.timerMiniCompteARebourd<0) {
+  if (window.timerMiniCompteARebourd<1) {
     // Fin du timer et lancement de l'écran loose
-    finish();
+    sauvegardeScore();
     titreLoose();
   }
 }
@@ -674,20 +500,10 @@ function affichageScore() {
 	chiffreScore.id = "chiffreScore";
 	chiffreScore.textContent = "0";
 }
-// Finish
-function finish() {
-  removeSonDivGlobal();
-  removePause();
-  sauvegardeScore();
-}
 // Mettre en pause
 function creationPause() {
 	// Creation option pause 
 	document.addEventListener("keydown", touchePause);
-}
-function removePause() {
-	// Suppresion option pause
-	document.removeEventListener("keydown", touchePause);
 }
 function touchePause() {
   if (event.keyCode == 27 && pausePlay == 0) {
@@ -880,19 +696,17 @@ function ChangementFormes() {
     choixFormeDef = choixformesU;
     formeDef = checkForme;
   }
-  recuppointbd();
+  var nombreDePointU = document.cookie.replace(/(?:(?:^|.*;\s*)point\s*\=\s*([^;]*).*$)|^.*$/, "$1");
   var formes1 = document.getElementById("divFormes1");
   formes1.addEventListener("click", choixFormesB);
   var formes2 = document.getElementById("divFormes2");
   formes2.addEventListener("click", choixFormes);
-  var pseudoUtilisateur = JSON.parse(localStorage.getItem(pseudo));
     // Verif si le joueur poséde la forme rond
     var nombreDePointU = document.cookie.replace(/(?:(?:^|.*;\s*)point\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     if (checkForme == nomForme){
       pointNCouleur2.textContent = "obtenu";
     }
     // Vérification de la forme choisi par le joueur et affichage du check suivant la forme sélectionner
-    var pseudoUtilisateur = JSON.parse(localStorage.getItem(pseudo));
     if (choixformesU == "null" || choixformesU == nomFormeB) {
       // Affiche un check sur la forme carre
       var divFormes = document.getElementById("divFormes1");
@@ -996,7 +810,3 @@ function retourMenuForme() {
   document.location.href="traitementchoixformes.php";
 }
 
-function recuppointbd() {
-  var nombreDePointU = document.cookie.replace(/(?:(?:^|.*;\s*)point\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-  console.log(nombreDePointU);
-}
