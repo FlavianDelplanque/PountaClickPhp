@@ -10,9 +10,9 @@ var nombreDeDivNoir = ["1","2","3"];
 // Nombre et générations forme bonus
 var setIntervalFormeBonu = null;
 // Temps niveaux
-var timesDifficulte = ["60","45","30"];
+var timesDifficulte = ["60","45","500"];
 // Temps génération forme bonus 
-var tempsGeneFormeBonus = [24000,11000,5000];
+var tempsGeneFormeBonus = [24000,11000,1000];
 // Timer
 var timer = 0;
 var intervalTimer = null;
@@ -38,7 +38,7 @@ var removeCinqPoint = 0;
 // variable forme
 var formesGlobal = document.getElementsByClassName("formesGlobal");
 var loose = document.getElementsByClassName("loose");
-var win = document.getElementsByClassName("win");
+var win = document.getElementsByClassName("divWin");
 // Variable pause/play 
 var pausePlay = 0;
 // Affichage score 
@@ -139,91 +139,74 @@ function formes() {
   var FormesCouleur = document.cookie.replace(/(?:(?:^|.*;\s*)choixformecouleur\s*\=\s*([^;]*).*$)|^.*$/, "$1");
   var FormesNoir = document.cookie.replace(/(?:(?:^|.*;\s*)choixformenoir\s*\=\s*([^;]*).*$)|^.*$/, "$1");
   for(var i=0; i<nombreDeFormes[numeroniveaux]; i++){
-    // Création formes
-    var formes = document.createElement("div");
+   
+
+
+
+     var formes = document.createElement("div");
     divGlobal[0].appendChild(formes);
-    formes.style.position = 'absolute';
+
+    // Verif si la forme Tete de mort est sélectionner
+    formes.className = "win";
+    var formesI = document.getElementsByClassName("win");
+    var formePageI = document.cookie.replace(/(?:(?:^|.*;\s*)formeCouleur\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    var formePage1 = formePageI.replace(/%0D/gi, '');
+    var formePage2 = formePage1.replace(/%0A/gi, '');
+    var formePage3 = formePage2.replace(/%09/gi, '');
+    var formePage4 = formePage3.replace(/%3C/gi, '<');
+    var formePage5 = formePage4.replace(/\+/gi, ' ');
+    var formePage6 = formePage5.replace(/%3D/gi, '=');
+    var formePage7 = formePage6.replace(/%27/gi, '"');
+    var formePage8 = formePage7.replace(/%22/gi, '"');
+    var formePage9 = formePage8.replace(/%3E/gi, '>');
+    var formePage = formePage9.replace(/%2F/gi, '/');
+    formesI[i].innerHTML = formePage;
+    var formes = document.getElementsByClassName("divWin");
+    formes[i].style.position = 'absolute';
     // Application Hauteur, largeur et border radius des formes
     var taille = Math.floor(Math.random() * 50+15);
-    formes.style.width = taille + 'px';
-    formes.style.height = taille + 'px';
-    // Verif si la forme rond est sélectionner
-    if (FormesCouleur == "rond") {
-      formes.style.borderRadius = '50%';
-    }
-    formes.style.zIndex = '1';
-    // Changement Couleur des formes
-    var nmbrC = Math.floor(Math.random() * couleur.length);
-    formes.style.backgroundColor = couleur[nmbrC];
-    // Création Class couleur et Class Global
-    formes.className = "formesGlobal win";
+    formes[i].style.width = taille + 'px';
+    formes[i].style.height = taille + 'px';
+    formes[i].style.zIndex = '1';
+        var nmbrC = Math.floor(Math.random() * couleur.length);
+    formes[i].style.backgroundColor = couleur[nmbrC];
     }
   // Création formes noir
   for(var i=0; i<nombreDeDivNoir[numeroniveaux]; i++){
     // Création formes
     var formes = document.createElement("div");
     divGlobal[0].appendChild(formes);
-    formes.style.position = 'absolute';
+
+    // Verif si la forme Tete de mort est sélectionner
+    formes.className = "loose";
+    var formesI = document.getElementsByClassName("loose");
+    var formePageI = document.cookie.replace(/(?:(?:^|.*;\s*)formeNoir\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    var formePage1 = formePageI.replace(/%0D/gi, '');
+    var formePage2 = formePage1.replace(/%0A/gi, '');
+    var formePage3 = formePage2.replace(/%09/gi, '');
+    var formePage4 = formePage3.replace(/%3C/gi, '<');
+    var formePage5 = formePage4.replace(/\+/gi, ' ');
+    var formePage6 = formePage5.replace(/%3D/gi, '=');
+    var formePage7 = formePage6.replace(/%27/gi, '"');
+    var formePage8 = formePage7.replace(/%22/gi, '"');
+    var formePage9 = formePage8.replace(/%3E/gi, '>');
+    var formePage = formePage9.replace(/%2F/gi, '/');
+    formesI[i].innerHTML = formePage;
+    var formes = document.getElementsByClassName("divLoose");
+    formes[i].style.position = 'absolute';
     // Application Hauteur, largeur et border radius des formes
     var taille = Math.floor(Math.random() * 50+15);
-    formes.style.width = taille + 'px';
-    formes.style.height = taille + 'px';
-    formes.style.borderRadius = "50%";
-    // Changement Couleur des formes
-    formes.style.backgroundColor = "black";
-    formes.style.zIndex = '1';
-    // Verif si la forme Tete de mort est sélectionner
-    if (FormesNoir == "TM") {
-      formes.className = "formesGlobal visageTM loose";
-      var visage = document.getElementsByClassName("visageTM");
-      var tete = document.createElement("div");
-      visage[i].appendChild(tete);
-      tete.className = "teteTM";
-      var yeux1 = document.createElement("div");
-      tete.appendChild(yeux1);
-      yeux1.className = "yeux1TM";
-      var yeux2 = document.createElement("div");
-      tete.appendChild(yeux2);
-      yeux2.className = "yeux2TM";
-      var nez = document.createElement("div");
-      tete.appendChild(nez);
-      nez.className = "nez";
-      var barre1 = document.createElement("div");
-      tete.appendChild(barre1);
-      barre1.className = "barre1";
-      var barre2 = document.createElement("div");
-      tete.appendChild(barre2);
-      barre2.className = "barre2";
-      var barre3 = document.createElement("div");
-      tete.appendChild(barre3);
-      barre3.className = "barre3";
-      var barre4 = document.createElement("div");
-      tete.appendChild(barre4);
-      barre4.className = "barre4";
-      var rond1 = document.createElement("div");
-      tete.appendChild(rond1);
-      rond1.className = "rond1";
-      var rond2 = document.createElement("div");
-      tete.appendChild(rond2);
-      rond2.className = "rond2";
-      var rond3 = document.createElement("div");
-      tete.appendChild(rond3);
-      rond3.className = "rond3";
-      var rond4 = document.createElement("div");
-      tete.appendChild(rond4);
-      rond4.className = "rond4";
-    }
-    else {
-      // Création Class couleur et Class Global
-      formes.className = "formesGlobal loose";
-    }
+    formes[i].style.width = taille + 'px';
+    formes[i].style.height = taille + 'px';
+    formes[i].style.zIndex = '1';
+
   }
 }
 // Deplacement des formes
 function deplacement() {
   // Calcul des nombres de formes a déplacer
-  var teteGlobal = document.getElementsByClassName("teteGlobal");
-  var nombreDeDiv = loose.length + win.length  + teteGlobal.length;
+  var divBonus = document.getElementsByClassName("divBonus");
+  var nombreDeDiv = loose.length + win.length  + divBonus.length;
   for(var i=0; i<nombreDeDiv; i++){
     // Position hauteur et largeur des formes
     var nmbrT = Math.floor(Math.random() * (88)+2);
@@ -261,8 +244,8 @@ function cliqueW() {
   chiffreScore.animate([{ transform: 'rotateZ(0deg)'},{ transform: 'rotateZ(360deg)' }], { duration: 500, iterations: 1});
   // Suprime la forme sélectionner
   (event.target).remove();
-  var teteGlobal = document.getElementsByClassName("teteGlobal");
-  if (teteGlobal.length > 0 || win.length >0) {
+  var divBonus = document.getElementsByClassName("divBonus");
+  if (divBonus.length > 0 || win.length >0) {
   // Lance l'animation +1point
   animationPointClique(event);
   }
@@ -304,7 +287,7 @@ function setIntervalBonu() {
   setIntervalFormeBonu = setInterval(formeBonu,intervalFormeBonu); 
 }
 function formeBonu() {
-  var nombreDivTeteGlobal = document.getElementsByClassName("teteGlobal").length;
+  var nombreDivTeteGlobal = document.getElementsByClassName("divBonus").length;
   // Verification données du joueur
   var FormesBonus = document.cookie.replace(/(?:(?:^|.*;\s*)choixformebonus\s*\=\s*([^;]*).*$)|^.*$/, "$1");
   // Vérifi si il reste des formes normal
@@ -312,61 +295,28 @@ function formeBonu() {
     clearInterval(setIntervalFormeBonu);
     setIntervalBonu();
   }
-  // Génére les formes bonus suivant la forme choisi par l'utilisateur
-  else if (FormesBonus == "Aurelie"){
-    // Rend la forme normal transparent
-    win[0].style.transitionDuration = '0s';
-    win[0].style.backgroundColor = 'transparent';
-    win[0].className = "teteGlobal formesGlobal";
-    // Créer la forme bonus a l'intérieur de la forme normal
-    var teteGlobal = document.getElementsByClassName("teteGlobal");
-    teteGlobal[nombreDivTeteGlobal].removeEventListener("click", cliqueW);
-    teteGlobal[nombreDivTeteGlobal].addEventListener("click", cliqueWB);
-    var cheveux = document.createElement("div");
-    teteGlobal[nombreDivTeteGlobal].appendChild(cheveux);
-    cheveux.className = "cheveux";
-    var fond = document.createElement("div");
-    cheveux.appendChild(fond);
-    fond.className = "fond";
-    var tete = document.createElement("div");
-    fond.appendChild(tete);
-    tete.className = "tete";
-    var yeux1 = document.createElement("div");
-    tete.appendChild(yeux1);
-    yeux1.className = "yeux1";
-    var yeux2 = document.createElement("div");
-    tete.appendChild(yeux2);
-    yeux2.className = "yeux2";
-    var bouche = document.createElement("div");
-    tete.appendChild(bouche);
-    bouche.className = "bouche";
-    clearInterval(setIntervalFormeBonu);
-    setIntervalBonu();
-  }
   else {
+  // Génére les formes bonus suivant la forme choisi par l'utilisateur
     // Rend la forme normal transparent
     win[0].style.transitionDuration = '0s';
     win[0].style.backgroundColor = 'transparent';
-    win[0].className = "teteGlobal formesGlobal";
+    win[0].className = "divBonus formesGlobal";
     // Créer la forme bonus a l'intérieur de la forme normal
-    var teteGlobal = document.getElementsByClassName("teteGlobal");
-    teteGlobal[nombreDivTeteGlobal].removeEventListener("click", cliqueW);
-    teteGlobal[nombreDivTeteGlobal].addEventListener("click", cliqueWB);
-    var cheveuxC = document.createElement("div");
-    teteGlobal[nombreDivTeteGlobal].appendChild(cheveuxC);
-    cheveuxC.className = "cheveuxC";
-    var teteC = document.createElement("div");
-    teteGlobal[nombreDivTeteGlobal].appendChild(teteC);
-    teteC.className = "teteC";
-    var yeux1C = document.createElement("div");
-    teteC.appendChild(yeux1C);
-    yeux1C.className = "yeux1C";
-    var yeux2C = document.createElement("div");
-    teteC.appendChild(yeux2C);
-    yeux2C.className = "yeux2C";
-    var boucheC = document.createElement("div");
-    teteC.appendChild(boucheC);
-    boucheC.className = "boucheC";
+    var divBonus = document.getElementsByClassName("divBonus");
+    divBonus[nombreDivTeteGlobal].removeEventListener("click", cliqueW);
+    divBonus[nombreDivTeteGlobal].addEventListener("click", cliqueWB);
+    var formePageI = document.cookie.replace(/(?:(?:^|.*;\s*)formeBonus\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    var formePage1 = formePageI.replace(/%0D/gi, '');
+    var formePage2 = formePage1.replace(/%0A/gi, '');
+    var formePage3 = formePage2.replace(/%09/gi, '');
+    var formePage4 = formePage3.replace(/%3C/gi, '<');
+    var formePage5 = formePage4.replace(/\+/gi, ' ');
+    var formePage6 = formePage5.replace(/%3D/gi, '=');
+    var formePage7 = formePage6.replace(/%27/gi, '"');
+    var formePage8 = formePage7.replace(/%22/gi, '"');
+    var formePage9 = formePage8.replace(/%3E/gi, '>');
+    var formePage = formePage9.replace(/%2F/gi, '/');
+    divBonus[nombreDivTeteGlobal].innerHTML = formePage;
     clearInterval(setIntervalFormeBonu);
     setIntervalBonu();
   }
@@ -378,9 +328,9 @@ function cliqueWB(event) {
   chiffreScore.animate([{ transform: 'rotateZ(0deg)'},{ transform: 'rotateZ(360deg)' }], { duration: 500, iterations: 1});
   window.timerMiniCompteARebourd +=5;
   // Supprime la forme bonus
-  event.target.closest('.teteGlobal').remove();
-  var teteGlobal = document.getElementsByClassName("teteGlobal");
-  if (teteGlobal.length > 0 || win.length >0) {
+  event.target.closest('.divBonus').remove();
+  var divBonus = document.getElementsByClassName("divBonus");
+  if (divBonus.length > 0 || win.length >0) {
   // Lance l'animation +5point & seconde
   animationCinqPointClique(event);
   }
@@ -431,19 +381,17 @@ function removeCinqPointClique() {
 // Lancement des niveaux suivant ou de l'écran win suivant le nombre de forme normal et bonus restante 
 function cliqueWP() {
   // Verif le nombre de formes normal et bonus restant
-  var winTotal = win.length + document.getElementsByClassName("teteGlobal").length;
+  var winTotal = win.length + document.getElementsByClassName("divBonus").length;
   if (winTotal == 0 && niveauxSimpleOuTout == "tout") {
     // lance les niveaux suivant
     sauvegardeScore();
     gestionNiveaux();
     titreWin();
-    console.log("tamere");
   }
   else if (winTotal == 0 && niveauxSimpleOuTout == "simple") {
     // lance l'écran win
     sauvegardeScore();
     titreWin();
-    console.log("tamere");
     if (numeroniveaux <= 2) {
     // Lance le son pour l'écran win des niveaux noob et hardcore
     sonOuii.play();
@@ -453,9 +401,6 @@ function cliqueWP() {
     sonLeviosa.play();
     }
   }
-  console.log(winTotal);
-  console.log(niveauxSimpleOuTout);
-  console.log("lol");
 }
 // Loose
 function cliqueL() {
@@ -647,8 +592,8 @@ function deleteTitreChargement() {
 
 var checkForme = null;
 var choixformesU = null;
-var nomFormeB = null;
-var nomForme = null;
+var nomFormeB = 1;
+var nomForme = 2;
 var prix = null;
 var choixFormeDef = null;
 var formeDef = null;
@@ -658,41 +603,30 @@ function ChangementFormes() {
   boutonChangement[0].addEventListener("click",retourMenuForme);
   document.cookie = "achat=false";
   var forme = document.cookie.replace(/(?:(?:^|.*;\s*)forme\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-  console.log(forme);
-  console.log(document.cookie);
   if (forme == "couleur") {
     checkForme = document.cookie.replace(/(?:(?:^|.*;\s*)formecouleur\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     choixformesU = document.cookie.replace(/(?:(?:^|.*;\s*)choixformecouleur\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-    nomFormeB = "carre";
-    nomForme = "rond";
     intituleFormeB = "choixformecouleur";
     intituleForme = "formecouleur";
     prix = 50;
-    console.log("couleur");
     choixFormeDef = choixformesU;
     formeDef = checkForme;
   }
   else if (forme == "noir") {
     checkForme = document.cookie.replace(/(?:(?:^|.*;\s*)formenoir\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     choixformesU = document.cookie.replace(/(?:(?:^|.*;\s*)choixformenoir\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-    nomFormeB = "noir";
-    nomForme = "TM";
     intituleFormeB = "choixformenoir";
     intituleForme = "formenoir";
     prix = 100;
-    console.log("noir");
     choixFormeDef = choixformesU;
     formeDef = checkForme;
   }
   else if (forme == "bonus") {
     checkForme = document.cookie.replace(/(?:(?:^|.*;\s*)formebonus\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     choixformesU = document.cookie.replace(/(?:(?:^|.*;\s*)choixformebonus\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-    nomFormeB = "Christophe";
-    nomForme = "Aurelie";
     intituleFormeB = "choixformebonus";
     intituleForme = "formebonus";
     prix = 200;
-    console.log("noir");
     choixFormeDef = choixformesU;
     formeDef = checkForme;
   }
@@ -767,10 +701,8 @@ function choixFormesB() {
 }
 
 function choixFormes() {
-  console.log("mdr");
   var nombreDePointU = document.cookie.replace(/(?:(?:^|.*;\s*)point\s*\=\s*([^;]*).*$)|^.*$/, "$1");
   if (checkForme == "null" && nombreDePointU >= prix) {
-    console.log("acheté");
     document.cookie = intituleForme+"="+nomForme;
     document.cookie = intituleFormeB+"="+nomForme;
     document.cookie = "point="+prix;
@@ -782,7 +714,6 @@ function choixFormes() {
     formeDef = nomForme;
   }
   else if (checkForme == nomForme) {
-    console.log("sélectionner");
     document.cookie = intituleFormeB+"="+nomForme;
     checkFormeF();
     choixFormeDef = nomForme;
