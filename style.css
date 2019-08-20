@@ -489,6 +489,19 @@ input:hover, input:focus {
 	color: var(--noir);
 
 }
+.inputbutton, .inputsubmit {
+	width: 30vmin;
+	height: 6vmin;
+	border-radius: 50%;
+	background-color:var(--noir);
+	color: white;
+	box-shadow: 10px 5px 5px var(--noir);
+	border: 0px solid transparent;
+	outline: none;
+	margin-bottom: 10px;
+	margin-top: 10px;
+	font-size: 2vmin;
+}
 label {
 	color: var(--jaune);
 	font-size: 4vmin;
