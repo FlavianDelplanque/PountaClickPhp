@@ -1,0 +1,704 @@
+:root {
+	--jaune:#ffc70f;
+	--noir:#231f20;
+	--noir-0-5: rgba(35,31,32,0.5);
+}
+
+body {
+	padding: 0;
+	margin: 0;
+}
+form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 20px;
+}
+.global, #globalTitre{
+	height: 100vmin;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+#divGlobalPause {
+	position: absolute;
+	height: 100vmin;
+	width: 100%;
+	top: 0;
+	z-index: 100;
+}
+.globalScore {
+	height: 100%;
+}
+h1 {
+	display: flex;
+	align-self: center;
+	margin:0;
+}
+h2 {
+	display: flex;
+	align-self: center;
+	margin:0;
+}
+#win, #winFin {
+	color: green;
+	animation: animationTitre 1s infinite alternate;
+}
+#loose {
+	color: red;
+	animation: animationTitre 1s infinite alternate;
+}
+@keyframes animationTitre {
+	0% {
+		transform: scale(1);
+	}
+	100% {
+		transform: scale(1.5);
+	}
+}
+
+
+#timer {
+	color: var(--jaune);
+}
+#timerMini {
+	color: var(--jaune);
+	position: absolute;
+	bottom: 0;
+}
+#chiffreTime {
+	color: var(--jaune);
+	font-size: 20vmin;
+}
+
+#titrePause {
+	color: var(--jaune);
+	font-size: 15vmin;
+	z-index: 50;
+}
+
+#divScore {
+	display: flex;
+	position: absolute;
+	top: 5px;
+	right: 12px;
+	color: var(--jaune);
+}
+#chiffreScore {
+	margin-left: 10px;
+	animation-duration: 0.5s;
+	animation-iteration-count: 1;
+	animation-timing-function: linear;
+	
+}
+@keyframes rotation {
+	0% {
+		transform: rotateZ(0deg);
+	}
+	100% {
+		transform: rotateZ(360deg);
+	}
+}
+
+
+/* formes bonus */
+
+.cheveux {
+	position: absolute;
+	background-color: orange;
+	width: 100%;
+	height: 100%;
+	border-radius: 50% 50% 0 0;
+	animation: tourne 1s infinite alternate;
+}
+.fond {
+	position: absolute;
+	background-color: white;
+	width: 70%; 
+	height: 85%;
+	border-radius: 50% 50% 0 0;
+	bottom: 0;
+	left: 15%;
+}
+.tete {
+	position: absolute;
+	background-color: bisque;
+	width: 100%; 
+	height: 85%;
+	border-radius: 50%;
+}
+
+.yeux1 {
+	position: absolute;
+	background-color: black;
+	width: 20%; 
+	height:20%;
+	border-radius: 50%;
+	top: 30%;
+	left: 20%;
+}
+.yeux2 {
+	position: absolute;
+	background-color: black;
+	width: 20%; 
+	height:20%;
+	border-radius: 50%;
+	top: 30%;
+	right: 20%;
+}
+.bouche {
+	position: absolute;
+	background-color: red;
+	width: 40%; 
+	height: 20%;
+	border-radius: 50%;
+	bottom: 12%;
+	right: 30%;
+}
+
+
+
+
+
+.teteF {
+	position: relative;
+	background-color: bisque;
+	height: 14vmin;
+	width: 14vmin;
+	border-radius: 50%;
+	top: -0.2vmin;
+  left: -0.2vmin;	
+}
+.cheveuxF, #cheveuxF {
+	position: absolute;
+	border-top: 2vmin solid orange;
+	border-left: 2vmin solid orange;
+	border-right: 2vmin solid orange;
+	border-radius: 50% 50% 0 0;
+	height: 15.5vmin;
+	width: 13.7vmin;
+}
+.yeux1F {
+	position: absolute;
+	border-radius: 50%;
+	background-color: black;
+	height: 20%;
+	width: 20%;
+	top: 25%;
+	left: 20%;
+}
+.yeux2F {
+	position: absolute;
+	border-radius: 50%;
+	background-color: black;
+	height: 20%;
+	width: 20%;
+	top: 25%;
+	right: 20%;
+}
+.boucheF {
+	position: absolute;
+	background-color: red;
+	width: 40%; 
+	height: 20%;
+	border-radius: 50%;
+	bottom: 18%;
+	right: 30%;
+}
+
+
+
+
+.cheveuxC {
+	position: absolute;
+	background-color: black;
+	width: 100%; 
+	height: 50%;
+	border-radius: 50% 50% 0 0;
+}
+
+.teteC {
+	position: absolute;
+	background-color: bisque;
+	width: 100%; 
+	height: 100%;
+	border-radius: 50%;
+	top: 10%;
+
+}
+.yeux1C {
+	position: absolute;
+	background-color: black;
+	width: 20%; 
+	height:20%;
+	border-radius: 50%;
+	top: 30%;
+	left: 20%;
+}
+.yeux2C {
+	position: absolute;
+	background-color: black;
+	width: 20%; 
+	height:20%;
+	border-radius: 50%;
+	top: 30%;
+	right: 20%;
+}
+
+.boucheC {
+	position: absolute;
+	background-color: black;
+	width: 40%; 
+	height: 20%;
+	border-radius: 50%;
+	bottom: 12%;
+	right: 30%;
+}
+
+
+
+.cheveuxCF, #cheveuxCF {
+	position: relative;
+	background-color: black;
+	width: 15vmin; 
+	height: 10vmin;
+	border-radius: 50% 50% 0 0;
+	top: -4.5vmin;
+}
+
+.teteCF {
+	position: absolute;
+	background-color: bisque;
+	width: 15vmin; 
+	height: 15vmin;
+	border-radius: 50%;
+
+}
+.yeux1CF {
+	position: absolute;
+	background-color: black;
+	width: 20%; 
+	height:20%;
+	border-radius: 50%;
+	top: 30%;
+	left: 20%;
+}
+.yeux2CF {
+	position: absolute;
+	background-color: black;
+	width: 20%; 
+	height:20%;
+	border-radius: 50%;
+	top: 30%;
+	right: 20%;
+}
+
+.boucheCF {
+	position: absolute;
+	background-color: black;
+	width: 40%; 
+	height: 20%;
+	border-radius: 50%;
+	bottom: 12%;
+	right: 30%;
+}
+
+
+
+/* Tete de mort */
+
+.visageTM, #visageTM {
+	position: absolute;
+	height: 50%;
+	width: 50%;
+	top: 10%;	
+}
+.teteTM {
+	height: 100%;
+	width: 100%;
+	background-color: black;
+	border-radius: 50%;
+}
+.yeux1TM {
+	position: absolute;
+	height: 30%;
+	width: 20%;
+	border-radius: 50%;
+	background-color: white;
+	top: 22%;
+	left: 20%;
+	transform: rotate(30deg);
+}
+.yeux2TM {
+	position: absolute;
+	height: 30%;
+	width: 20%;
+	border-radius: 50%;
+	background-color: white;
+	top: 22%;
+	right: 20%;
+	transform: rotate(-30deg);
+}
+.nez {
+	position: absolute;
+	height: 20%;
+	width: 20%;
+	border-radius: 50%;
+	background-color: white;
+	top: 55%;
+	right: 41%;	
+}
+.barre1 {
+	position: absolute;
+	height: 20%;
+	width: 60%;
+	background-color: black;
+	bottom: -40%;
+	right: -17%;
+	transform: rotate(30deg);
+}
+.barre2 {
+	position: absolute;
+	height: 20%;
+	width: 60%;
+	background-color: black;
+	bottom: -40%;
+	left: -17%;
+	transform: rotate(-30deg);
+}
+.barre3 {
+	position: absolute;
+	height: 20%;
+	width: 60%;
+	background-color: black;
+	bottom: -15%;
+	right: -17%;
+	transform: rotate(-30deg);
+}
+.barre4 {
+	position: absolute;
+	height: 20%;
+	width: 60%;
+	background-color: black;
+	bottom: -15%;
+	left: -17%;
+	transform: rotate(30deg);
+}
+.rond1 {
+	position: absolute;
+	height: 40%;
+	width: 40%;
+	background-color: black;
+	border-radius: 50%;
+	bottom: -62%;
+	left: -25%;
+}
+.rond2 {
+	position: absolute;
+	height: 40%;
+	width: 40%;
+	background-color: black;
+	border-radius: 50%;
+	bottom: -62%;
+	right: -25%;
+}
+.rond3 {
+	position: absolute;
+	height: 40%;
+	width: 40%;
+	background-color: black;
+	border-radius: 50%;
+	bottom: -15%;
+	left: -25%;
+}
+.rond4 {
+	position: absolute;
+	height: 40%;
+	width: 40%;
+	background-color: black;
+	border-radius: 50%;
+	bottom: -15%;
+	right: -25%;
+}
+.rondNoir {
+	border-radius: 50%;
+	background-color: black;
+}
+.rondCouleur {
+	border-radius: 50%;
+}
+
+
+
+table {
+	    border-collapse: collapse; 
+	    text-align: center;
+	    background-color: var(--noir);
+
+}
+th, td {
+	border: 2px solid white;
+	height: 4vmin;
+	width:20vmin;
+	color: white;
+
+}
+
+tbody tr:hover {
+	background-color: var(--jaune);
+}
+tbody tr:hover th,tbody tr:hover td {
+ color: black;
+}
+
+button {
+	width: 30vmin;
+	height: 6vmin;
+	border-radius: 50%;
+	background-color:var(--noir);
+	color: white;
+	box-shadow: 10px 5px 5px var(--noir);
+	border: 0px solid transparent;
+	outline: none;
+	margin-bottom: 10px;
+	margin-top: 10px;
+	font-size: 2vmin;
+}
+button:hover {
+	background-color: var(--jaune);
+	color: var(--noir);
+}
+#boutonScoreEtPartie {
+	width: 35vmin;
+	height: 8vmin;
+}
+input {
+	background-color: var(--noir);
+	box-shadow: 10px 5px 5px var(--noir);
+	color: var(--jaune);
+	border:0px solid transparent;
+	outline: none;
+		width: 25vmin;
+	height: 3vmin;
+	font-size: 3vmin;
+	text-align: center;
+}
+input:hover, input:focus {
+		background-color: var(--jaune);
+	color: var(--noir);
+
+}
+.inputbutton, .inputsubmit {
+	width: 30vmin;
+	height: 6vmin;
+	border-radius: 50%;
+	background-color:var(--noir);
+	color: white;
+	box-shadow: 10px 5px 5px var(--noir);
+	border: 0px solid transparent;
+	outline: none;
+	margin-bottom: 10px;
+	margin-top: 10px;
+	font-size: 2vmin;
+}
+label {
+	color: var(--jaune);
+	font-size: 4vmin;
+}
+#label {
+		margin-bottom: 10px;
+}
+#loose, #winFin {
+	margin-bottom: 30px;
+}
+
+
+
+
+/*Menu formes*/
+#globalDivMenuFormes {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	grid-template-rows: 1fr 5vh 10vh 10vh 3vh 1fr;
+}
+#labelFormes {
+	grid-column: 4;
+	grid-row: 2;
+	text-align: center;
+}
+#boutonMenuFormesCouleur {
+	grid-column: 2;
+	grid-row: 3;
+	justify-self:center;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#boutonMenuFormesNoir {
+	grid-column: 4;
+	grid-row: 3;
+	justify-self:center;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#boutonMenuFormesBonus {
+	grid-column: 6;
+	grid-row: 3;
+	justify-self:center;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#LabelOuRetourMenuFormes {
+	grid-column: 4;
+	grid-row: 4;
+	text-align: center;
+}
+#boutonMenuJeuxMenuFormes {
+	grid-column: 4;
+	grid-row: 5;
+	justify-self:center;
+}
+
+
+/* Menu jeux */
+#globalDivMenuJeux {
+	display: grid;
+	grid-template-columns: repeat(7, 1fr);
+	grid-template-rows: 1fr 10vh 10vh 10vh 10vh 10vh 1fr;
+}
+#buttonNiveauxNoob {
+	grid-column: 4;
+	grid-row: 3;
+	justify-self:center;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#buttonNiveauxHardcore {
+	grid-column: 4;
+	grid-row: 4;
+	justify-self:center;
+	margin-top: 10px;
+	margin-bottom: 10px;	
+}
+#buttonNiveauxUltraviolence {
+	grid-column: 4;
+	grid-row: 5;
+	justify-self:center;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#buttonToutLesNiveaux {
+	grid-column: 4;
+	grid-row: 6;
+	justify-self:center;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+#buttonMenuEntrerPseudoMenuJeux {
+	grid-column: 6;
+	grid-row: 4;
+	justify-self:center;
+}
+#buttonAccueilMenuJeux {
+	grid-column: 6;
+	grid-row: 5;
+	justify-self:center;
+}
+#labelChoixDuNiveaux {
+	text-align: center;
+	grid-column: 4;
+	grid-row: 2;
+}
+#labelOptionsMenuJeux {
+	text-align: center;
+	grid-column: 6;
+	grid-row: 3;
+}
+#labelOptionsJeuxMenuJeux {
+	text-align: center;
+	grid-column: 2;
+	grid-row: 3;
+}
+#buttonChoixFormesMenuJeux {
+	grid-column: 2;
+	grid-row: 4;
+	justify-self:center;
+}
+#buttonMenuSonMenuJeux {
+	grid-column: 2;
+	grid-row: 5;
+	justify-self:center;
+}
+
+
+
+
+/* Menu choix formes */
+#globalDivFormes {
+	display: grid;
+	justify-content: center;
+	grid-template-columns: 1fr 30vh 1fr 30vh 1fr;
+	grid-template-rows: 1fr 10vh 30vh 2vh 10vh 1fr;
+}
+#divFormes1 {
+	background-color: var(--noir-0-5);
+	height: 100%;
+	width: 100%;
+	grid-column: 2;
+	grid-row: 3;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+}
+#divFormes2 {
+	background-color: var(--noir-0-5);
+	height: 100%;
+	width: 100%;
+	grid-column: 4;
+	grid-row: 3;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+}
+#labelChoixFormesCouleur {
+	text-align: center;
+	grid-column: 2/5;
+	grid-row: 2;
+}
+.boutonMenuformes {
+	grid-column: 2/5;
+	grid-row: 5;
+	justify-self:center;
+}
+#nombreDePoint {
+	position: absolute;
+	top: 1vmin;
+	right: 2vmin;
+}
+#formesCouleur1 {
+	background-color: red;
+	height: 50%;
+	width: 50%;
+}
+#formesCouleur2 {
+	background-color: red;
+	height: 50%;
+	width: 50%;
+	border-radius: 50%;
+}
+#pointNCouleur1 {
+	position: absolute;
+	bottom: 1vmin;
+}
+#pointNCouleur2 {
+	position: absolute;
+	bottom: 1vmin;
+}
+#formesNoir {
+	background-color: black;
+	height: 50%;
+	width: 50%;
+	border-radius: 50%;
+}
