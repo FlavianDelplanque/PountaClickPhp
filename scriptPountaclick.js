@@ -741,3 +741,9 @@ function retourMenuForme() {
   document.location.href="traitementchoixformes.php";
 }
 
+document.querySelector("#changertheme").addEventListener("click", changertheme);
+
+function changertheme() {
+  var body = document.querySelector("body");
+  body.classList.toggle("darktheme");
+}

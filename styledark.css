@@ -1,0 +1,23 @@
+:root {
+	--jaune:#ffc70f;
+	--noir:#231f20;
+	--blanc: white;
+}
+
+.darktheme {
+	background-color: var(--noir);
+}
+
+.darktheme button {
+	background-color: var(--blanc);
+	color: var(--noir);
+}
+
+.whitetheme body {
+	background-color: var(--blanc);
+}
+
+.whitetheme button {
+	background-color: var(--black);
+	color: var(--blanc);
+}

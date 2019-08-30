@@ -2,7 +2,9 @@
 	--jaune:#ffc70f;
 	--noir:#231f20;
 	--noir-0-5: rgba(35,31,32,0.5);
+	--blanc: white;
 }
+
 
 body {
 	padding: 0;
@@ -701,4 +703,14 @@ label {
 	height: 50%;
 	width: 50%;
 	border-radius: 50%;
+}
+
+
+.darktheme {
+	background-color: var(--noir);
+}
+
+.darktheme button {
+	background-color: var(--blanc);
+	color: var(--noir);
 }
